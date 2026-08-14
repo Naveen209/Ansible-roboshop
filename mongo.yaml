@@ -1,0 +1,24 @@
+- name: setup mongodb
+  hosts: mongodb
+  connection: ssh
+  become: yes
+  tasks:
+    - name: Copy mongodb repo
+      ansible.builtin.copy:
+        src: mongo.repo
+        dest: /etc/yum.repos.d/mongodb-org-7.0.repo
+    - name: Install mongodb
+      ansible.builtin.yum:
+        name: mongodb-org
+        state: present
+    - name: enable and start mongodb
+      ansible.builtin.service:
+        name: mongodb-org
+        state: started
+        enable: yes
+    - name: Port binding using replace module
+      path: /etc/mongod.conf
+      regexp: "127.0.0.1"
+      replace: "0.0.0.0"
+
+  
