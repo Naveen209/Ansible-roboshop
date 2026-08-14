@@ -1,0 +1,41 @@
+- name: Set up of catalogue server
+  hosts: localhost
+  connectiom: ssh
+  become: yes
+  tasks:
+  - name: Disable NodeJS
+    ansible.builtin.command:
+    cmd: dnf module disable nodejs -y
+
+  - name: Enable NodeJS 20
+    ansible.builtin.command:
+    cmd: dnf module enable nodejs:20 -y
+
+  - name: Install nodejs
+    ansible.builtin.yum:
+      name: nodejs
+      state: present
+
+  - name: checking user exist or not 
+    ansible.builtin.command: id roboshop
+    register: output
+    ignore_errors: true
+ 
+  - when: output.rc != 0
+    name: creating user roboshop
+    become: yes
+    ansible.builtin.user:
+      name: roboshop
+      state: present
+  
+  - name: checking dir exist or not
+    ansible.builtin.stat:
+      path: /root/app
+    register: output
+ 
+  - when: output.stat.exists != true
+    name: "Creating  /app"
+    ansible.builtin.file:
+      path: /root/app
+      state: directory
+  
