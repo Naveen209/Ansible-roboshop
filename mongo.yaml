@@ -1,6 +1,5 @@
 - name: setup mongodb
   hosts: localhost
-  connection: ssh
   become: yes
   tasks:
     - name: Copy mongodb repo
@@ -18,8 +17,8 @@
         enabled: yes
     - name: Port binding using replace module
       ansible.builtin.replace:
-      path: /etc/mongod.conf
-      regexp: "127.0.0.1"
-      replace: "0.0.0.0"
+        path: /etc/mongod.conf
+        regexp: "127.0.0.1"
+        replace: "0.0.0.0"
 
   
