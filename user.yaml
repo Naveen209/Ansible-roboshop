@@ -1,4 +1,4 @@
-- name: Set up of catalogue server
+- name: Set up of user server
   hosts: localhost
   connection: local
   become: yes
@@ -41,12 +41,12 @@
 
   - name: Download application code
     ansible.builtin.get_url:
-      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      url: https://roboshop-builds.s3.amazonaws.com/user.zip
       dest: /tmp
 
   - name: unzip the artifact
     ansible.builtin.unarchive:
-      src: /tmp/catalogue.zip
+      src: /tmp/user.zip
       dest: /app
 
   - name: installing dependencies under /app directory
@@ -54,10 +54,10 @@
       cmd: npm install
       chdir: /app
 
-  - name: Copy catalogue repo
+  - name: Copy user repo
     ansible.builtin.copy:
-      src: catalogue.service
-      dest: /etc/systemd/system/catalogue.service 
+      src: user.service
+      dest: /etc/systemd/system/user.service 
 
   - name: Copy mongodb repo
     ansible.builtin.copy:
@@ -71,7 +71,7 @@
 
   - name: Loading schema
     ansible.builtin.shell:
-      cmd: mongosh --host 172.31.0.228 < /app/schema/catalogue.js
+      cmd: mongosh --host 172.31.0.228 < /app/schema/user.js
   
     
     
