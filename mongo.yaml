@@ -1,5 +1,5 @@
 - name: setup mongodb
-  hosts: mongodb
+  hosts: localhost
   connection: ssh
   become: yes
   tasks:
