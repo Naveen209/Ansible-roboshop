@@ -46,11 +46,11 @@
   - name: unzip the artifact
     ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
-      dest: /app
+      dest: /root/app
   - name: installing dependencies under /app directory
     ansible.builtin.command: 
       cmd: npm install
-      chdir: /app
+      chdir: /root/app
   - name: Copy catalogue repo
     ansible.builtin.copy:
       src: catalogue.service
