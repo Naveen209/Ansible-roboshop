@@ -1,6 +1,6 @@
 - name: Set up of catalogue server
   hosts: localhost
-  connection: ssh
+  connection: local
   become: yes
   tasks:
   - name: Disable NodeJS
@@ -30,13 +30,13 @@
   
   - name: checking dir exist or not
     ansible.builtin.stat:
-      path: /root/app
+      path: /app
     register: output
  
   - when: output.stat.exists != true
     name: "Creating  /app"
     ansible.builtin.file:
-      path: /root/app
+      path: /app
       state: directory
 
   - name: Download application code
@@ -46,16 +46,26 @@
   - name: unzip the artifact
     ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
-      dest: /root/app
+      dest: /app
   - name: installing dependencies under /app directory
     ansible.builtin.command: 
       cmd: npm install
-      chdir: /root/app
+      chdir: /app
   - name: Copy catalogue repo
     ansible.builtin.copy:
       src: catalogue.service
       dest: /etc/systemd/system/catalogue.service 
-  
+  - name: Copy mongodb repo
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongodb-org-7.0.repo
+  - name: Install mongodb client
+    ansible.builtin.yum:
+      name: mongodb-mongosh
+      state: present
+  - name: Loading schema
+    ansible.builtin.shell:
+      cmd: mongosh --host 172.31.0.228 < /app/schema/catalogue.js
   
     
     
