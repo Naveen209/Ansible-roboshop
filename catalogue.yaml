@@ -38,4 +38,26 @@
     ansible.builtin.file:
       path: /root/app
       state: directory
+
+  - name: Download application code
+    ansible.builtin.get_url:
+      url: curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
+  - name: unzip the artifact
+    ansible.bultin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+  - name: installing dependencies under /app directory
+    ansible.builtin.command: 
+      cmd: npm install
+      chdir: /app
+  - name: Copy catalogue repo
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service 
+  
+  
+    
+    
+
   
