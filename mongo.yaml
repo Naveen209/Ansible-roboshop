@@ -1,7 +1,7 @@
 - name: setup mongodb
   hosts: localhost
   become: yes
-  connection: ssh
+  connection: local
   tasks:
     - name: Copy mongodb repo
       ansible.builtin.copy:

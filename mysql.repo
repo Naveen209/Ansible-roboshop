@@ -1,0 +1,5 @@
+[mysql80-community]
+name=MySQL 8.0 Community Server
+baseurl=https://repo.mysql.com/yum/mysql-8.0-community/el/9/$basearch/
+enabled=1
+gpgcheck=0
