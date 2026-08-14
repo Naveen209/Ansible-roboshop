@@ -57,7 +57,15 @@
   - name: Copy catalogue repo
     ansible.builtin.copy:
       src: catalogue.service
-      dest: /etc/systemd/system/catalogue.service 
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: Daemon reload and start service
+    ansible.builtin.systemd_service:
+      name: catalogue
+      enabled: yes
+      state: started
+
+  
 
   - name: Copy mongodb repo
     ansible.builtin.copy:
