@@ -44,7 +44,7 @@
       url: curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
       dest: /tmp
   - name: unzip the artifact
-    ansible.bultin.unarchive:
+    ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
       dest: /app
   - name: installing dependencies under /app directory
