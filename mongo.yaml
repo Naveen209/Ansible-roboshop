@@ -12,7 +12,7 @@
         state: present
     - name: enable and start mongodb
       ansible.builtin.service:
-        name: mongodb-org
+        name: mongod
         state: started
         enabled: yes
     - name: Port binding using replace module
@@ -20,5 +20,9 @@
         path: /etc/mongod.conf
         regexp: "127.0.0.1"
         replace: "0.0.0.0"
+    - name: Restart mongodb service
+      ansible.builtin.service:
+        name: mongod
+        state: restarted
 
   
