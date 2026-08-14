@@ -1,6 +1,6 @@
 - name: Set up of catalogue server
   hosts: localhost
-  connectiom: ssh
+  connection: ssh
   become: yes
   tasks:
   - name: Disable NodeJS
