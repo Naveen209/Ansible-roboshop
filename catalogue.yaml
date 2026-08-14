@@ -41,7 +41,7 @@
 
   - name: Download application code
     ansible.builtin.get_url:
-      url: curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
       dest: /tmp
   - name: unzip the artifact
     ansible.builtin.unarchive:
