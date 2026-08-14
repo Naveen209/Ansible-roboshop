@@ -58,10 +58,11 @@
     ansible.builtin.copy:
       src: user.service
       dest: /etc/systemd/system/user.service 
-      
+
   - name: Daemon reload and start service
     ansible.builtin.systemd_service:
-      name: catalogue
+      name: user
+      daemon_reload: true
       enabled: yes
       state: started
 

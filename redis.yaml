@@ -1,0 +1,21 @@
+- name: setup redis service
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+  - name: install redis
+    ansible.builtin.yum:
+      name: redis
+      state: present
+  - name: port binding using replace module
+    ansible.builtin.replace:
+      path: /etc/redis/redis.conf 
+      regexp: "127.0.0.1"
+      replace: "0.0.0.0"
+  - name: Daemon reload and start service
+    ansible.builtin.systemd_service:
+      name: redis
+      enabled: yes
+      state: started
+
+

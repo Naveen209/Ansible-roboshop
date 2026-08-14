@@ -53,7 +53,7 @@
     ansible.builtin.command:
       cmd: npm install 
       chdir: /app
-      
+
   - name: Copy cart repo
     ansible.builtin.copy:
       src: cart.service
@@ -61,6 +61,7 @@
   
   - name: Daemon reload and start service
     ansible.builtin.systemd_service:
-      name: catalogue
+      name: cart
+      daemon_reload: true
       enabled: yes
       state: started
