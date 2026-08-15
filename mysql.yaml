@@ -1,7 +1,7 @@
 - name: setup mysql
-  hosts: localhost
+  hosts: mysql
   become: yes
-  connection: local
+  connection: ssh
   tasks:
     - name: Copy mysql repo
       ansible.builtin.copy:
@@ -16,3 +16,6 @@
         name: mysqld
         state: started
         enabled: yes
+    - name: changing default root password
+      ansible.builtin.command:
+        cmd: mysql_secure_installation --set-root-pass RoboShop@1

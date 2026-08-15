@@ -1,18 +1,16 @@
-- name: setup cart service
-  hosts: cart
+- name: setup shipping service
+  hosts: shipping
   connection: ssh
   become: yes
 
   tasks:
-  - name: disable nodejs repo
-    ansible.builtin.command:
-      cmd: dnf module disable nodejs -y
-  - name: enable nodejs repo
-    ansible.builtin.command:
-      cmd: dnf module disable nodejs -y
-  - name: install nodejs
+  - name: install java 17
     ansible.builtin.yum:
-      name: nodejs
+      name: java-17-openjdk-devel
+      state: present
+  - name: install maven
+    ansible.builtin.yum:
+      name: maven
       state: present
 
 
@@ -32,36 +30,58 @@
     ansible.builtin.stat:
       path: /app
     register: output
+
  
   - when: output.stat.exists != true
     name: "Creating  /app"
     ansible.builtin.file:
       path: /app
       state: directory
+
   
   - name: Download application
     ansible.builtin.get_url:
-      url: https://roboshop-builds.s3.amazonaws.com/cart.zip
-      dest: /tmp/cart.zip
+      url: https://roboshop-builds.s3.amazonaws.com/shipping.zip
+      dest: /tmp/shipping.zip
+
 
   - name: Unzip artifact
     ansible.builtin.unarchive:
-      src: /tmp/cart.zip
+      src: /tmp/shipping.zip
       dest: /app
+
 
   - name: install dependencies
     ansible.builtin.command:
-      cmd: npm install 
+      cmd: mvn clean package
       chdir: /app
 
-  - name: Copy cart repo
-    ansible.builtin.copy:
-      src: cart.service
-      dest: /etc/systemd/system/cart.service     
-  
+
+  - name: Rename file using command module
+    ansible.builtin.command:
+      cmd: mv target/shipping-1.0.jar shipping.jar
+
+
   - name: Daemon reload and start service
     ansible.builtin.systemd_service:
       name: cart
       daemon_reload: true
       enabled: yes
       state: started
+
+
+  - name: Install mysql
+    ansible.builtin.yum:
+      name: mysql
+      state: present
+
+
+  - name: Load shipping database schema
+    ansible.builtin.shell:
+      cmd: mysql -h mysql.roboshopservice.store -uroot -pRoboShop@1 < /app/schema/shipping.sql
+
+
+  - name: Restart shipping service
+    ansible.builtin.service:
+      name: shipping
+      state: restarted

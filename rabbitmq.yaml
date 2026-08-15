@@ -1,7 +1,7 @@
 - name: setup of rabbitmq
-  hosts: localhost
+  hosts: rabbitmq
   become: yes
-  connection: local
+  connection: ssh
   tasks:
   - name: Configure erlang yum repository
     ansible.builtin.shell:

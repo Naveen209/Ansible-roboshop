@@ -1,6 +1,6 @@
 - name: Set up of user server
-  hosts: localhost
-  connection: local
+  hosts: user
+  connection: ssh
   become: yes
   tasks:
   - name: Disable NodeJS

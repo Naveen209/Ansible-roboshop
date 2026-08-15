@@ -1,6 +1,6 @@
 - name: setup redis service
-  hosts: localhost
-  connection: local
+  hosts: redis
+  connection: ssh
   become: yes
   tasks:
   - name: install redis

@@ -1,12 +1,12 @@
 - name: setup payment service
-  hosts: localhost
-  connection: local
+  hosts: payment
+  connection: ssh
   become: yes
 
   tasks:
   - name: installing required packages
     ansible.builtin.yum:
-      name: {{item}}
+      name: "{{item}}"
       state: present
     loop:
     - "python36"

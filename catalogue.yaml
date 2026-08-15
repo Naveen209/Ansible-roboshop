@@ -1,6 +1,6 @@
 - name: Set up of catalogue server
-  hosts: localhost
-  connection: local
+  hosts: catalogue
+  connection: ssh
   become: yes
   tasks:
   - name: Disable NodeJS
@@ -80,7 +80,7 @@
 
   - name: Loading schema
     ansible.builtin.shell:
-      cmd: mongosh --host 172.31.0.228 < /app/schema/catalogue.js
+      cmd: mongosh --host mongodb.roboshopservice.store < /app/schema/catalogue.js
   
     
     

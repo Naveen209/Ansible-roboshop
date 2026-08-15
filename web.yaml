@@ -1,0 +1,38 @@
+- name: setup nginx reverse proxy
+  hosts: web
+  connection: ssh
+  become: yes
+
+  tasks:
+  - name: install nginx
+    ansible.builtin.yum:
+      name: nginx
+      state: present
+  - name: Enable and start nginx
+    ansible.builtin.service:
+      name: nginx
+      enabled: yes
+      state: started
+  - name: Remove a singdefault html file
+    ansible.builtin.file:
+      path: /usr/share/nginx/html/*
+      state: absent
+  - name: Download frontend content
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/web.zip
+      dest: /tmp
+  - name: Unzip the Downloaded artifact
+    ansible.builtin.unarchive:
+      src: /tmp/web.zip
+      dest: /usr/share/nginx/html
+
+  - name: setup reverse proxy connection
+    ansible.builtin.copy:
+      src: web.service
+      dest: /etc/nginx/default.d/roboshop.conf
+  - name: restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+
+  
