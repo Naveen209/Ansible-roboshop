@@ -48,6 +48,7 @@
     ansible.builtin.unarchive:
       src: /tmp/user.zip
       dest: /app
+      remote_src: yes
 
   - name: installing dependencies under /app directory
     ansible.builtin.command: 
