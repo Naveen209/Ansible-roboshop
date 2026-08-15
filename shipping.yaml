@@ -60,7 +60,7 @@
 
   - name: Rename file using command module
     ansible.builtin.command:
-      cmd: mv target/shipping-1.0.jar shipping.jar
+      cmd: mv /app/target/shipping-1.0.jar /app/target/shipping.jar
 
 
   - name: Daemon reload and start service
