@@ -22,11 +22,11 @@ do
      --key-name "$KEY_NAME" \
      --security-group-ids "$SECURITY_GROUP_ID" \
      --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
-     --query '.Instances[0].InstanceId' \
+     --query 'Instances[0].InstanceId' \
      --output text)
     echo "created $i instance: $INSTANCE_ID"
-    sleep 5
-
+    aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
+    echo "$i instance is running"
     if [[ "$i" == "web" ]]
     then
         IP_ADDRESS=$(aws ec2 describe-instances \
