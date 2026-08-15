@@ -79,7 +79,7 @@
 
   - name: Loading schema
     ansible.builtin.shell:
-      cmd: mongosh --host 172.31.0.228 < /app/schema/user.js
+      cmd: mongosh --host mongodb.roboshopservice.store < /app/schema/user.js
   
     
     
