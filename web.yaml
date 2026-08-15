@@ -30,5 +30,8 @@
     ansible.builtin.service:
       name: nginx
       state: restarted
+  - name: Enforcing
+    ansible.builtin.command: getenforce
+    
 
 
