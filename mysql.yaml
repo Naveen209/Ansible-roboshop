@@ -17,5 +17,5 @@
         state: started
         enabled: yes
     - name: changing default root password
-      ansible.builtin.command:
+      ansible.builtin.shell:
         cmd: mysql_secure_installation --set-root-pass RoboShop@1
