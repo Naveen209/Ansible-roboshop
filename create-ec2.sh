@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IMAGE_ID="ami-0e0416d387552f0b1"
-KEY_NAME="key-02cb5f478801a2d5b"
+KEY_NAME="DevOps_AWS"
 SECURITY_GROUP_ID="sg-0fc3b5d7044d4a2cb"
 
 DOMAIN_NAME="roboshopservice.store"
