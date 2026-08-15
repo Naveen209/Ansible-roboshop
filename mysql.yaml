@@ -16,6 +16,24 @@
         name: mysqld
         state: started
         enabled: yes
-    - name: changing default root password
+    - name: Get temporary MySQL root password
       ansible.builtin.shell:
-        cmd: mysql_secure_installation --set-root-pass RoboShop@1
+        cmd: "grep 'temporary password' /var/log/mysqld.log | tail -1 | awk -F': ' '{print $2}'"
+      register: mysql_temp_password
+      changed_when: false
+
+    - name: Set MySQL root password
+      ansible.builtin.shell:
+        cmd: >
+          mysql --connect-expired-password
+          -u root
+          -p'{{ mysql_temp_password.stdout }}'
+          -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';"
+
+    - name: Test MySQL root password
+      ansible.builtin.shell:
+        cmd: >
+          mysql -u root -p'RoboShop@1'
+          -e "SELECT 1;"
+      register: mysql_test
+      changed_when: false
