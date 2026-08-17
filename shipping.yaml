@@ -62,6 +62,11 @@
     ansible.builtin.command:
       cmd: mv /app/target/shipping-1.0.jar /app/target/shipping.jar
 
+  - name: Copy shipping service file
+  ansible.builtin.copy:
+    src: shipping.service
+    dest: /etc/systemd/system/shipping.service
+
 
   - name: Daemon reload and start service
     ansible.builtin.systemd_service:
