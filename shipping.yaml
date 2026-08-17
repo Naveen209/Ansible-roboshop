@@ -84,8 +84,15 @@
 
   - name: Load shipping database schema
     ansible.builtin.shell:
-      cmd: mysql -h mysql.roboshopservice.store -uroot -pRoboShop@1 < /app/db/shipping.sql
+      cmd: mysql -h mysql.roboshopservice.store -uroot -pRoboShop@1 < /app/db/schema.sql
 
+  - name: Load shipping database schema
+    ansible.builtin.shell:
+      cmd: mysql -h mysql.roboshopservice.store -uroot -pRoboShop@1 < /app/db/app-user.sql
+      
+  - name: Load shipping master data
+  ansible.builtin.shell:
+    cmd: mysql -h mysql.roboshopservice.store -uroot -pRoboShop@1 < /app/db/master-data.sql
 
   - name: Restart shipping service
     ansible.builtin.service:
