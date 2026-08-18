@@ -60,7 +60,8 @@
 
   - name: Rename file using command module
     ansible.builtin.command:
-      cmd: mv /app/target/shipping-1.0.jar /app/shipping.jar
+      cmd: mv /app/target/shipping-1.0.jar shipping.jar
+      chdir: /app
 
   - name: Copy shipping service file
     ansible.builtin.copy:
